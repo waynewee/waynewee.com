@@ -112,8 +112,6 @@ function App() {
         <nav className="topnav" aria-label="Primary">
           <a href="#about">About</a>
           <a href="#projects">Projects</a>
-          <a href="#lab">Lab</a>
-          <a href="#contact">Contact</a>
         </nav>
       </header>
 
@@ -176,12 +174,6 @@ function App() {
                 <a className="button button-primary" href="#projects">
                   Browse projects
                 </a>
-                <button className="button button-ghost" type="button" disabled>
-                  Enter the lab
-                </button>
-                <button className="button button-ghost" type="button" disabled>
-                  Ping the operator
-                </button>
               </div>
             </div>
           </section>
