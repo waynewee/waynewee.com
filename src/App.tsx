@@ -15,6 +15,28 @@ type Page = {
 
 const pages: Page[] = [
   {
+    id: "about",
+    slug: "about",
+    eyebrow: "Build Log 00",
+    title: "About me",
+    description:
+      "Should I add an introduction here for recruiters? Are there still recruiters for software engineers? Are there still going to be software engineers?",
+    bullets: [
+      {
+        label:
+          "Focused on shipping polished interfaces for real use instead of collecting half-finished experiments",
+      },
+      {
+        label:
+          "Usually working across React, TypeScript, UI systems, and the messy middle between design and implementation",
+      },
+      {
+        label:
+          "The two labels above and this entire site are AI-generated and very mildly tweaked",
+      },
+    ],
+  },
+  {
     id: "projects",
     slug: "projects",
     eyebrow: "Build Log 01",
@@ -78,6 +100,7 @@ function App() {
   }, []);
 
   const currentPage = pages.find((page) => page.slug === route);
+  const isAboutPage = currentPage?.slug === "about";
 
   return (
     <main className="shell">
@@ -87,6 +110,7 @@ function App() {
           waynewee.com
         </a>
         <nav className="topnav" aria-label="Primary">
+          <a href="#about">About</a>
           <a href="#projects">Projects</a>
           <a href="#lab">Lab</a>
           <a href="#contact">Contact</a>
@@ -94,27 +118,45 @@ function App() {
       </header>
 
       {currentPage ? (
-        <section className="subpage">
-          <p className="eyebrow">{currentPage.eyebrow}</p>
-          <h1>{currentPage.title}</h1>
-          <p className="lede">{currentPage.description}</p>
-          <ul className="bullet-list">
-            {currentPage.bullets.map((bullet) => (
-              <li key={bullet.label}>
-                {bullet.href ? (
-                  <a target="_blank" className="bullet-link" href={bullet.href}>
-                    {bullet.label}
-                  </a>
-                ) : (
-                  bullet.label
-                )}
-              </li>
-            ))}
-          </ul>
-          <div className="button-row">
-            <a className="button button-primary" href="#home">
-              Return to launch screen
-            </a>
+        <section className={`subpage ${isAboutPage ? "subpage-about" : ""}`}>
+          {isAboutPage ? (
+            <div className="about-portrait">
+              <div className="portrait-frame">
+                <img
+                  className="portrait-image"
+                  src="/profile-img.jpg"
+                  alt="Portrait of Wayne Wee"
+                />
+              </div>
+            </div>
+          ) : null}
+
+          <div className="subpage-content">
+            <p className="eyebrow">{currentPage.eyebrow}</p>
+            <h1>{currentPage.title}</h1>
+            <p className="lede">{currentPage.description}</p>
+            <ul className="bullet-list">
+              {currentPage.bullets.map((bullet) => (
+                <li key={bullet.label}>
+                  {bullet.href ? (
+                    <a
+                      target="_blank"
+                      className="bullet-link"
+                      href={bullet.href}
+                    >
+                      {bullet.label}
+                    </a>
+                  ) : (
+                    bullet.label
+                  )}
+                </li>
+              ))}
+            </ul>
+            <div className="button-row">
+              <a className="button button-primary" href="#home">
+                Return to launch screen
+              </a>
+            </div>
           </div>
         </section>
       ) : (
@@ -128,14 +170,13 @@ function App() {
                 for actual use, built for niche markets (but mostly for myself).
               </p>
               <div className="button-row">
+                <a className="button button-secondary" href="#about">
+                  About me
+                </a>
                 <a className="button button-primary" href="#projects">
                   Browse projects
                 </a>
-                <button
-                  className="button button-secondary"
-                  type="button"
-                  disabled
-                >
+                <button className="button button-ghost" type="button" disabled>
                   Enter the lab
                 </button>
                 <button className="button button-ghost" type="button" disabled>
