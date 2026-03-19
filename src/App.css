@@ -97,6 +97,10 @@
   padding: 2rem;
 }
 
+.hero-copy h1 {
+  margin-bottom: 24px;
+}
+
 .hero-copy,
 .status-card,
 .feature-card,
