@@ -193,8 +193,6 @@ function AppShell() {
         <nav className="topnav" aria-label="Primary">
           <PrimaryNavLink to="/about">About</PrimaryNavLink>
           <PrimaryNavLink to="/projects">Projects</PrimaryNavLink>
-          <PrimaryNavLink to="/lab">Lab</PrimaryNavLink>
-          <PrimaryNavLink to="/contact">Contact</PrimaryNavLink>
         </nav>
       </header>
 
