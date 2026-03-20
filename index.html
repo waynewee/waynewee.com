@@ -5,6 +5,19 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>waynewee.com</title>
+    <script>
+      (function redirectGitHubPagesPath() {
+        const params = new URLSearchParams(window.location.search);
+        const redirectPath = params.get("p");
+
+        if (!redirectPath) {
+          return;
+        }
+
+        const nextUrl = `${redirectPath}${window.location.hash}`;
+        window.history.replaceState(null, "", nextUrl);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>waynewee.com</title>
+    <script>
+      const nextUrl = new URL("/", window.location.origin);
+      nextUrl.searchParams.set(
+        "p",
+        `${window.location.pathname}${window.location.search}`,
+      );
+      nextUrl.hash = window.location.hash;
+      window.location.replace(nextUrl.toString());
+    </script>
+  </head>
+  <body></body>
+</html>

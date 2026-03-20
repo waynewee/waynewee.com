@@ -82,6 +82,12 @@
   border: 1px solid transparent;
 }
 
+.nav-link.is-active {
+  color: var(--text-h);
+  border-color: var(--border-strong);
+  background: rgba(255, 255, 255, 0.06);
+}
+
 .topnav a:hover,
 .topnav a:focus-visible {
   color: var(--text-h);

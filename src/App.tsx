@@ -1,4 +1,12 @@
-import { useEffect, useState } from "react";
+import {
+  BrowserRouter,
+  Link,
+  NavLink,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
+import { useEffect } from "react";
 import "./App.css";
 
 type Page = {
@@ -47,7 +55,7 @@ const pages: Page[] = [
       {
         label:
           "A finance tracker with built-in retirement planning and projection tools. For the FIRE-minded",
-        href: "https://waynewee.github.io/time-to-fire",
+        href: "/time-to-fire",
       },
     ],
   },
@@ -86,100 +94,136 @@ const pages: Page[] = [
   },
 ];
 
-const routeFromHash = () => window.location.hash.replace("#", "") || "home";
+function PrimaryNavLink({ to, children }: { to: string; children: string }) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        isActive ? "nav-link is-active" : "nav-link"
+      }
+    >
+      {children}
+    </NavLink>
+  );
+}
 
-function App() {
-  const [route, setRoute] = useState(routeFromHash());
+function PageView({ page }: { page: Page }) {
+  const isAboutPage = page.slug === "about";
 
+  return (
+    <section className={`subpage ${isAboutPage ? "subpage-about" : ""}`}>
+      {isAboutPage ? (
+        <div className="about-portrait">
+          <div className="portrait-frame">
+            <img
+              className="portrait-image"
+              src="/profile-img.jpg"
+              alt="Portrait of Wayne Wee"
+            />
+          </div>
+        </div>
+      ) : null}
+
+      <div className="subpage-content">
+        <p className="eyebrow">{page.eyebrow}</p>
+        <h1>{page.title}</h1>
+        <p className="lede">{page.description}</p>
+        <ul className="bullet-list">
+          {page.bullets.map((bullet) => (
+            <li key={bullet.label}>
+              {bullet.href ? (
+                <a target="_blank" className="bullet-link" href={bullet.href}>
+                  {bullet.label}
+                </a>
+              ) : (
+                bullet.label
+              )}
+            </li>
+          ))}
+        </ul>
+        <div className="button-row">
+          <Link className="button button-primary" to="/">
+            Return to launch screen
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function HomePage() {
+  return (
+    <section className="hero-panel">
+      <div className="hero-copy">
+        <p className="eyebrow">A place for my little apps</p>
+        <h1>Hello. Welcome to waynewee . com</h1>
+        <p className="lede">
+          A collection of actual apps built by me (but mostly by AI) meant for
+          actual use, built for niche markets (but mostly for myself).
+        </p>
+        <div className="button-row">
+          <Link className="button button-secondary" to="/about">
+            About me
+          </Link>
+          <Link className="button button-primary" to="/projects">
+            Browse projects
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ExternalRedirect({ href }: { href: string }) {
   useEffect(() => {
-    const onHashChange = () => setRoute(routeFromHash());
+    window.location.replace(href);
+  }, [href]);
 
-    window.addEventListener("hashchange", onHashChange);
+  return null;
+}
 
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
-
-  const currentPage = pages.find((page) => page.slug === route);
-  const isAboutPage = currentPage?.slug === "about";
-
+function AppShell() {
   return (
     <main className="shell">
       <header className="topbar">
-        <a className="brand" href="#home">
+        <Link className="brand" to="/">
           <span className="brand-mark">&lt;/&gt;</span>
           waynewee.com
-        </a>
+        </Link>
         <nav className="topnav" aria-label="Primary">
-          <a href="#about">About</a>
-          <a href="#projects">Projects</a>
+          <PrimaryNavLink to="/about">About</PrimaryNavLink>
+          <PrimaryNavLink to="/projects">Projects</PrimaryNavLink>
+          <PrimaryNavLink to="/lab">Lab</PrimaryNavLink>
+          <PrimaryNavLink to="/contact">Contact</PrimaryNavLink>
         </nav>
       </header>
 
-      {currentPage ? (
-        <section className={`subpage ${isAboutPage ? "subpage-about" : ""}`}>
-          {isAboutPage ? (
-            <div className="about-portrait">
-              <div className="portrait-frame">
-                <img
-                  className="portrait-image"
-                  src="/profile-img.jpg"
-                  alt="Portrait of Wayne Wee"
-                />
-              </div>
-            </div>
-          ) : null}
-
-          <div className="subpage-content">
-            <p className="eyebrow">{currentPage.eyebrow}</p>
-            <h1>{currentPage.title}</h1>
-            <p className="lede">{currentPage.description}</p>
-            <ul className="bullet-list">
-              {currentPage.bullets.map((bullet) => (
-                <li key={bullet.label}>
-                  {bullet.href ? (
-                    <a
-                      target="_blank"
-                      className="bullet-link"
-                      href={bullet.href}
-                    >
-                      {bullet.label}
-                    </a>
-                  ) : (
-                    bullet.label
-                  )}
-                </li>
-              ))}
-            </ul>
-            <div className="button-row">
-              <a className="button button-primary" href="#home">
-                Return to launch screen
-              </a>
-            </div>
-          </div>
-        </section>
-      ) : (
-        <>
-          <section className="hero-panel">
-            <div className="hero-copy">
-              <p className="eyebrow">A place for my little apps</p>
-              <h1>Hello. Welcome to waynewee . com</h1>
-              <p className="lede">
-                A collection of actual apps built by me (but mostly by AI) meant
-                for actual use, built for niche markets (but mostly for myself).
-              </p>
-              <div className="button-row">
-                <a className="button button-secondary" href="#about">
-                  About me
-                </a>
-                <a className="button button-primary" href="#projects">
-                  Browse projects
-                </a>
-              </div>
-            </div>
-          </section>
-        </>
-      )}
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/time-to-fire"
+          element={
+            <ExternalRedirect href="https://waynewee.github.io/time-to-fire" />
+          }
+        />
+        {pages.map((page) => (
+          <Route
+            key={page.id}
+            path={`/${page.slug}`}
+            element={<PageView page={page} />}
+          />
+        ))}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </main>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
   );
 }
 

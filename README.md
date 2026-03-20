@@ -27,5 +27,6 @@ npm run preview
 
 ### Notes
 
-- The app uses hash-based navigation, so it does not need SPA rewrite rules on GitHub Pages.
-- If you later attach a custom domain, this workflow can stay as-is.
+- The app now uses clean browser URLs like `/about` instead of `/#/about`.
+- GitHub Pages does not natively rewrite SPA routes, so `public/404.html` redirects unknown paths back into the app and preserves the original route.
+- This setup works for both the default GitHub Pages domain and a custom domain pointed at Pages.
