@@ -57,6 +57,10 @@ const pages: Page[] = [
           "A finance tracker with built-in retirement planning and projection tools. For the FIRE-minded",
         href: "/time-to-fire",
       },
+      {
+        label: "Run Calendar",
+        href: "/run-cal",
+      },
     ],
   },
   {
@@ -202,6 +206,12 @@ function AppShell() {
           path="/time-to-fire"
           element={
             <ExternalRedirect href="https://waynewee.github.io/time-to-fire" />
+          }
+        />
+        <Route
+          path="/run-cal"
+          element={
+            <ExternalRedirect href="https://waynewee.github.io/run-cal" />
           }
         />
         {pages.map((page) => (
